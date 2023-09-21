@@ -6,7 +6,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 
 void main() {
   runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
+    debugShowCheckedModeBanner: falssbbce,
     title: 'Navigation Basics',
     home: FirstRoute(),
     
