@@ -1,6 +1,7 @@
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:flutter/material.dart';
-import '../main.dart';
+import '../developer/consultasf.dart';
+import 'materia_profe.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -68,11 +69,8 @@ final contrab =TextEditingController();
                   child: MaterialButton(
                     color: const Color.fromARGB(255, 41, 64, 185),
                     onPressed: () {
-                      Navigator.pop(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const FirstRoute()),
-                      );
+                       Navigator.pop(context);
+                     
                     },
                     child: const Text(
                       'Cancelar',
@@ -88,9 +86,26 @@ final contrab =TextEditingController();
                  child: MaterialButton(
                   color: const Color.fromARGB(255, 41, 64, 185),
                   onPressed: () async{
+                    var codigo;
                     usuariobd = usuariob.text;
                     contrabd = contrab.text;
-                    //comprobacion de usuario y contraseña
+                    var result =await  comprobarProfe(usuariobd,contrabd);
+                    for(var i=0; i<result.length; i++){
+                      var dato=result[i];
+                      codigo=dato["c_profe"];
+                      print(codigo);
+                    }
+                     if(codigo!=0){
+                      // ignore: use_build_context_synchronously
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Elec_materia(c_profe: codigo,)),
+                      );
+                     }else{
+                      // ignore: use_build_context_synchronously
+                      _mensajeUsu(context);
+                     }
                
                   },
                   child: const Text('Iniciar', style: TextStyle(color: Colors.white, fontSize: 25),),
