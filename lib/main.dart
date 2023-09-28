@@ -78,7 +78,7 @@ class _FirstRouteState extends State<FirstRoute> {
               ),
               ),
 
-             SizedBox(
+             const SizedBox(
                 height: 30,
               ),
 
