@@ -20,6 +20,7 @@ class Elec_materia extends StatefulWidget {
 
 // ignore: camel_case_types
 class _Elec_materiaState extends State<Elec_materia> {
+    bool isLoading = true;
   var result;
   List cod=[];
   List materias=[];
@@ -32,18 +33,23 @@ class _Elec_materiaState extends State<Elec_materia> {
   }
   Future<void> getMaterias() async {
      result = await getmateria(widget.c_profe);
+     if(result!="Error"){
      for(var i=0; i<result.length;i++){
       var dato=result[i];
       var codigo=dato["c_materia"];
       var materia=dato["nombre_m"];
       setState(() {  
+        isLoading = false;
         cod.add(codigo);
         materias.add(materia);
       });
-
+     }
+     }else{
+      setState(() {
+        _mensaje(context);
+      });
      }
   }
-
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -77,7 +83,15 @@ class _Elec_materiaState extends State<Elec_materia> {
                     )  
                                   ],
                 ),
-                child: ListView.builder(
+                child: isLoading?
+                  const FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child:CircularProgressIndicator(
+                      color: Color.fromARGB(255, 82, 138, 197),
+                    backgroundColor: Colors.black,
+                  ),)
+                  :
+                ListView.builder(
                     itemCount: materias.length,
                     itemBuilder: (BuildContext context, int index) {
                       // Crea un botón para cada elemento en la lista de datos
@@ -139,5 +153,29 @@ class _Elec_materiaState extends State<Elec_materia> {
         ),
       
     );
+  }
+
+   void _mensaje(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Error de conexión"),
+            content:
+                const Text('La conexion es lenta\nIntentalo de nuevo mas tarde'),
+            actions: [
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    setState(() {
+                      Navigator.pop(context);
+                    });
+                  },
+                  child: const Text('Aceptar'),
+                ),
+              )
+            ],
+          );
+        });
   }
 }

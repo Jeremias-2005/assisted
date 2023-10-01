@@ -90,7 +90,8 @@ final contrab =TextEditingController();
                     usuariobd = usuariob.text;
                     contrabd = contrab.text;
                     var result =await  comprobarProfe(usuariobd,contrabd);
-                    for(var i=0; i<result.length; i++){
+                    if(result!="Error"){//comprobar
+                         for(var i=0; i<result.length; i++){
                       var dato=result[i];
                       codigo=dato["c_profe"];
                       print(codigo);
@@ -106,6 +107,10 @@ final contrab =TextEditingController();
                       // ignore: use_build_context_synchronously
                       _mensajeUsu(context);
                      }
+                    }else{
+                      _mensaje(context);
+                    }
+                   
                
                   },
                   child: const Text('Iniciar', style: TextStyle(color: Colors.white, fontSize: 25),),
@@ -231,8 +236,7 @@ Widget contrasena(){
           return AlertDialog(
             title: const Text("Error de conexión"),
             content:
-                const Text('Ocurrió un error al conectar con la base de datos'
-                    'o consulta errónea.'),
+                const Text('La conexion es lenta\nIntentalo de nuevo mas tarde'),
             actions: [
               Center(
                 child: TextButton(

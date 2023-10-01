@@ -20,6 +20,7 @@ class ElecProfe extends StatefulWidget {
 }
 
 class _ElecProfeState extends State<ElecProfe> {
+  bool isLoading = true;
   var result;
   var result2;
   List cod=[];
@@ -33,13 +34,15 @@ class _ElecProfeState extends State<ElecProfe> {
    Future<void> getGYS() async {
     result = await getG(widget.cod);
     result2= await getS(widget.cod);
+
     for(var i=0; i < result.length; i++){
       var dato = result[i];
       var dato2=result2[i];
       var c=dato["c_grado"];
       var cS=dato2["c_se"];
       var s=dato2["seccion"];
-      setState(() {  
+      setState(() { 
+        isLoading=false; 
         cod.add(c);
         seccion.add(s);
         cod_seccion.add(cS);
@@ -101,7 +104,16 @@ class _ElecProfeState extends State<ElecProfe> {
                       )
                    ]
                   ),
-                  child: ListView.builder(
+                  child: isLoading?
+                  const FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child:CircularProgressIndicator(
+                      color: Color.fromARGB(255, 82, 138, 197),
+                    backgroundColor: Colors.black,
+                  ),)
+
+                  :
+                  ListView.builder(
                     itemCount: seccion.length,
                     itemBuilder: (BuildContext context, int index) {
                       // Crea un botón para cada elemento en la lista de datos
@@ -166,7 +178,16 @@ class _ElecProfeState extends State<ElecProfe> {
                       )
                    ]
                   ),
-                  child: ListView.builder(
+                  child: isLoading?
+                  const FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child:CircularProgressIndicator(
+                      color: Color.fromARGB(255, 82, 138, 197),
+                    backgroundColor: Colors.black,
+                  ),)
+
+                  :
+                  ListView.builder(
                     itemCount: cod.length,
                     itemBuilder: (BuildContext context, int index) {
                       // Crea un botón para cada elemento en la lista de datos
@@ -203,13 +224,13 @@ class _ElecProfeState extends State<ElecProfe> {
                 ),
                 Padding(padding: EdgeInsets.all(screenSize.width * 0.1)),
                 MaterialButton(onPressed: (){
-                  if(option1==null || option2 ==null){
+                  if(option1=="" || option2 ==""){
                     _alert(context,option2,option1);
                   }else{
                      Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                builder: (context) => Profe()),
+                                builder: (context) => Profe(anio: option2, section: option1,)),
                                 );
                   print(option2);
                   print(option1);

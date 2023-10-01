@@ -7,6 +7,7 @@ import 'dart:io';
 Future<dynamic> comprobarProfe(String usuario, String contra) async {
   print(usuario);
   print(contra);
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://notas10073.000webhostapp.com/formprofe.php'),
     body: <String, dynamic>{
@@ -17,10 +18,14 @@ Future<dynamic> comprobarProfe(String usuario, String contra) async {
    var resultado = jsonDecode(enviar.body);
    print(resultado);
    return resultado;
+  }catch(e){
+    return "Error";
+  }
 }
 //funcion para obtener materias
 Future<dynamic> getmateria(var cod_c) async {
   print(cod_c);
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://notas10073.000webhostapp.com/getmateria.php'),
     body: <String, dynamic>{
@@ -30,6 +35,10 @@ Future<dynamic> getmateria(var cod_c) async {
    var resultado = jsonDecode(enviar.body);
    print(resultado);
    return resultado;
+  }
+  catch(e){
+    return "Error";
+  }
 }
 
 //funcion para obtener años y secciones
@@ -56,6 +65,20 @@ Future<dynamic> getS(var cod_c) async {
     },
   );
   print(enviar.body);
+   var resultado = jsonDecode(enviar.body);
+   print(resultado);
+   return resultado;
+}
+
+Future<dynamic> getAlumns(var anio, var seccion) async {
+  print(anio);
+  http.Response enviar = await http.post(
+    Uri.parse('https://notas10073.000webhostapp.com/extract_Alumn.php'),
+    body: <String, dynamic>{
+      "anio": anio,
+      "section":seccion,
+    },
+  );
    var resultado = jsonDecode(enviar.body);
    print(resultado);
    return resultado;
