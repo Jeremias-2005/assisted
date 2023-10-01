@@ -2,6 +2,7 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:flutter/material.dart';
 import '../developer/consultaso.dart';
 import '../main.dart';
+import 'consultassub.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -29,6 +30,8 @@ final contrab =TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+  final now = DateTime.now();
+  final fecha ="${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -107,7 +110,7 @@ final contrab =TextEditingController();
                         // ignore: use_build_context_synchronously
                         Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const FirstRoute()),
+                  MaterialPageRoute(builder: (context) =>  Consultass(fecha1: fecha)),
                    );
                       }
                     }

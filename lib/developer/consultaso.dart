@@ -12,7 +12,7 @@ import 'dart:io';
 
 Future<dynamic> comprobara(String usuariobd, String contrabd) async {
   http.Response enviar = await http.post(
-    Uri.parse('https://incasingles.000webhostapp.com/forma.php'),
+    Uri.parse('https://notas10073.000webhostapp.com/formsub.php'),
     body: <String, dynamic>{
       "usuario": usuariobd,
       "contra": contrabd,
@@ -22,6 +22,22 @@ Future<dynamic> comprobara(String usuariobd, String contrabd) async {
     return "error";
   } else {
     return enviar.body;
+  }
+}
+
+Future<dynamic> asisg(String fecha1) async {
+  http.Response enviar = await http.post(
+    Uri.parse('https://notas10073.000webhostapp.com/asisg.php'),
+    body: <String, dynamic>{
+      "fecha": fecha1
+    },
+  );
+  if (enviar.statusCode == 201) {
+    return "error";
+  } else {
+    var resultado = jsonDecode(enviar.body);
+    print(resultado);
+    return resultado;
   }
 }
 
