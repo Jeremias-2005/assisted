@@ -7,13 +7,15 @@ void main() {
   runApp(ElecProfe(
     cod: '',
     materia: '',
+    codigo: '',
   ));
 }
 
 class ElecProfe extends StatefulWidget {
   String cod;
   String materia;
-   ElecProfe({super.key,required this.cod,required this.materia});
+  String codigo;
+   ElecProfe({super.key,required this.cod,required this.materia, required this.codigo});
 
   @override
   State<ElecProfe> createState() => _ElecProfeState();
@@ -51,6 +53,7 @@ class _ElecProfeState extends State<ElecProfe> {
     }
   String? option1;
   String? option2;
+  String? option3;
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -89,7 +92,7 @@ class _ElecProfeState extends State<ElecProfe> {
                  Padding(padding: EdgeInsets.all(screenSize.width * 0.04)),
                 Container(
                   padding: const EdgeInsets.all(10),
-                  height: screenSize.height * 0.3,
+                  height: screenSize.height * 0.2,
                   width: screenSize.width * 0.8,
                   decoration: BoxDecoration(
                     color: const  Color.fromARGB(255, 64, 108, 155),
@@ -130,11 +133,13 @@ class _ElecProfeState extends State<ElecProfe> {
                                 Radio(
                                    toggleable: true,
                                     activeColor: const  Color.fromARGB(255, 34, 67, 94),
-                                    value: seccion[index],
+                                    value: cod_seccion[index],
                                     groupValue: option1,
                                     onChanged: (value){
                                       setState(() {
+                                      
                                         option1= value;
+                                        print(option1);
                                       });
                                     },   
                                 ),
@@ -222,18 +227,99 @@ class _ElecProfeState extends State<ElecProfe> {
                     },
                   ),
                 ),
-                Padding(padding: EdgeInsets.all(screenSize.width * 0.1)),
+                Padding(padding: EdgeInsets.all(screenSize.width * 0.05)),
+        
+                 Text("Elección de Turno",
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  color:const Color.fromARGB(255, 240, 233, 233),
+                  fontSize: textSize2,//cambiar
+                  ),
+                  ),
+                 Padding(padding: EdgeInsets.all(screenSize.width * 0.03)),
+        
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  height: screenSize.height * 0.2,
+                  width: screenSize.width * 0.8,
+                  decoration: BoxDecoration(
+                    color: const  Color.fromARGB(255, 64, 108, 155),
+                  border: Border.all(width: 2),
+                  borderRadius: BorderRadius.circular(10),
+                   boxShadow:const [
+                      BoxShadow(
+                        color: Color.fromARGB(255, 37, 35, 35),
+                        offset: Offset(0, 2),
+                        blurRadius: 15,
+                        spreadRadius: 2,
+                      )
+                   ]
+                  ),
+                  child: Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 89, 149, 212),
+                              border: Border.all(width: 2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: [
+                                Radio(
+                                   toggleable: true,
+                                    activeColor: const  Color.fromARGB(255, 34, 67, 94),
+                                    value: "1",
+                                    groupValue: option3,
+                                    onChanged: (value){
+                                      setState(() {
+                                        option3= value;
+                                        print(option3);
+                                      });
+                                    },   
+                                ),
+                                Text("Turno Matutino",style: TextStyle(fontSize: textSize),),//ajustar
+                              ],
+                            ),
+                          ),
+                           Padding(padding: EdgeInsets.all(screenSize.width * 0.015)),
+                           Container(
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 89, 149, 212),
+                              border: Border.all(width: 2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: [
+                                Radio(
+                                   toggleable: true,
+                                    activeColor: const  Color.fromARGB(255, 34, 67, 94),
+                                    value: "2",
+                                    groupValue: option3,
+                                    onChanged: (value){
+                                      setState(() {
+                                        option3= value;
+                                        print(option3);
+                                      });
+                                    },   
+                                ),
+                                Text("Turno Vespertino",style: TextStyle(fontSize: textSize),),//ajustar
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                ),
+                Padding(padding: EdgeInsets.all(screenSize.width * 0.05)),
                 MaterialButton(onPressed: (){
-                  if(option1=="" || option2 ==""){
-                    _alert(context,option2,option1);
+                  if(option1=="" || option2 =="" || option3==null){
+                    _alert(context,option2,option1,option3);
                   }else{
                      Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                builder: (context) => Profe(anio: option2, section: option1,)),
-                                );
-                  print(option2);
-                  print(option1);
+                                builder: (context) => Profe(anio: option2, section: option1,turno: option3,materia: widget.materia,cod: widget.codigo)
+                                )
+                     );
                   
                   }
                 },
@@ -254,7 +340,10 @@ class _ElecProfeState extends State<ElecProfe> {
       ),
     );
   }
- void _alert(BuildContext context, var grado, var seccion) {
+ void _alert(BuildContext context, var grado, var seccion,var turno) {
+    grado??="Falto completar";
+    seccion??="Falto completar";
+    turno??="Falto completar";
   Size screenSize = MediaQuery.of(context).size;
     double screenWidth = MediaQuery.of(context).size.width;
     double textSize = screenWidth < 340 ? 8.00 : screenWidth > 600? 30.00 : 17.00;
@@ -271,12 +360,13 @@ class _ElecProfeState extends State<ElecProfe> {
               ],
             ),
             content: SizedBox(
-              height: screenSize.height * 0.08,
+              height: screenSize.height * 0.11,
               child: Column(
                 children: [
                    Text('Faltaron datos que completar:',style: TextStyle(fontSize: textSize),),
                       Text("Año: ${grado} ",style: TextStyle(fontSize: textSize),),
                       Text("Sección: ${seccion}",style: TextStyle(fontSize: textSize),),
+                      Text("turno: ${turno}",style: TextStyle(fontSize: textSize),),
                 ],
               ),
             ),

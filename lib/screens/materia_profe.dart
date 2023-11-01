@@ -103,11 +103,13 @@ class _Elec_materiaState extends State<Elec_materia> {
                               onPressed: () {
                                 // Cuando se presiona el botón, identifica el dato correspondiente
                                 String datoSeleccionado = materias[index];
+                                String codigo=cod[index];
                                 Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                builder: (context) => ElecProfe(cod: widget.c_profe,materia: datoSeleccionado,)),
+                                builder: (context) => ElecProfe(cod: widget.c_profe,materia: datoSeleccionado,codigo: codigo,)),
                                 );
+                                print(codigo);
                                 print('Se presionó el botón para $datoSeleccionado');
                               },
                               child: Container(

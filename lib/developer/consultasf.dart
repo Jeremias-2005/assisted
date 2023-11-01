@@ -72,6 +72,7 @@ Future<dynamic> getS(var cod_c) async {
 
 Future<dynamic> getAlumns(var anio, var seccion) async {
   print(anio);
+  try{
   http.Response enviar = await http.post(
     Uri.parse('https://notas10073.000webhostapp.com/extract_Alumn.php'),
     body: <String, dynamic>{
@@ -82,4 +83,29 @@ Future<dynamic> getAlumns(var anio, var seccion) async {
    var resultado = jsonDecode(enviar.body);
    print(resultado);
    return resultado;
+  }catch(e){
+    return "Error";
+  }
+}
+
+Future<dynamic> save(var materia, var nie, var grado, var turno, var hora, var dia, var asis, var justi) async {
+  try{
+  http.Response enviar = await http.post(
+    Uri.parse('https://notas10073.000webhostapp.com/save.php'),
+    body: <String, dynamic>{
+      "materia":materia,
+      "nie":nie,
+      "grado":grado,
+      "turno":turno,
+      "hora":hora,
+      "dia":dia,
+      "asis":asis,
+      "justi":justi
+    },
+  );
+   return enviar.body;
+  }catch(e){
+    print(e);
+    return "Error";
+  }
 }
